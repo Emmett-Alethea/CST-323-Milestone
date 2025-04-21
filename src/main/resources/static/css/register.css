@@ -3,6 +3,7 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
+	font-family: 'Arial', sans-serif;
     align-items: center;
 }
 
@@ -18,10 +19,12 @@ body {
 .fieldError {
     font-size: 0.875em;
     color: #dc3545;
+	margin-top: 5px;
 }
 
 table {
     width: 100%;
+	margin-top: 15px;
 }
 
 td {
@@ -31,4 +34,7 @@ td {
 
 input[type="text"], input[type="password"] {
     width: 100%;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 15px;
 }
