@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.gcu.models.LoginModel;
+import com.gcu.models.loginModel;
 
 import jakarta.validation.Valid;
 
@@ -16,12 +16,12 @@ public class loginController {
     @GetMapping("/login")
     public String display(Model model) {
         model.addAttribute("title", "Login Form");
-        model.addAttribute("loginModel", new LoginModel());
+        model.addAttribute("loginModel", new loginModel());
         return "login";
     }
 
     @PostMapping("/doLogin")
-    public String doLogin(@Valid LoginModel loginModel, BindingResult bindingResult, Model model) {
+    public String doLogin(@Valid loginModel loginModel, BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()){
             model.addAttribute("title", "Login");
