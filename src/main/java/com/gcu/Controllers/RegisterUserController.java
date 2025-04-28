@@ -1,5 +1,6 @@
 package com.gcu.Controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,9 @@ import jakarta.validation.Valid;
 
 @Controller
 public class RegisterUserController {
+	
+	@Autowired
+	private RegistrationService registrationService; // dependency injection
 
     @GetMapping("/register") // full mapping is /request/
     public String display(Model model){
@@ -28,8 +32,15 @@ public class RegisterUserController {
             model.addAttribute("title", "Registration Form");
             return "register";
         }
+        
+        //Call the service to register the user
+        boolean isRegistered = registrationService.registerUser(userModel);
+        if (isRegistered) {
+        	return "redirect:/"; //redirects users to home page
+        }
 
         //Figure out how to add the new user to the list of existing users and later the database
-        return "redirect:/";
+        model.addAttribute("message", "Registration failed.");
+        return "redirect:/"; //redirect back to registration page if fails
     }
 }
