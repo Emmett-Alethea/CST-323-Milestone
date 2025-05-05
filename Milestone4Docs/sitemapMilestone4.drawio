@@ -18,7 +18,7 @@
         </mxCell>
         <mxCell id="_sWVx2BFrd9wZVEv0__3-6" value="" style="endArrow=none;dashed=1;html=1;rounded=0;entryX=0.058;entryY=1.025;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" target="_sWVx2BFrd9wZVEv0__3-0">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="47" y="350" as="sourcePoint" />
+            <mxPoint x="47" y="320" as="sourcePoint" />
             <mxPoint x="160" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
@@ -42,8 +42,8 @@
         </mxCell>
         <mxCell id="_sWVx2BFrd9wZVEv0__3-10" value="" style="endArrow=none;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="50" y="350" as="sourcePoint" />
-            <mxPoint x="100" y="350" as="targetPoint" />
+            <mxPoint x="50" y="320" as="sourcePoint" />
+            <mxPoint x="100" y="320" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="_sWVx2BFrd9wZVEv0__3-13" value="Claims" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
