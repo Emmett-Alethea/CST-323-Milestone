@@ -30,3 +30,12 @@ CREATE TABLE warranties (
     returnInstructions VARCHAR(250),
     expirationDate BIGINT
 );
+
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50),
+  password VARCHAR(50),
+  firstName VARCHAR(100),
+  lastName VARCHAR(100),
+  email VARCHAR(100)
+);

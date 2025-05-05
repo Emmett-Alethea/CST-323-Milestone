@@ -34,15 +34,20 @@ public class loginController {
     @PostMapping("/doLogin")
     public String doLogin(@Valid loginModel loginModel, BindingResult bindingResult, Model model) {
 
+        System.out.println();
+        System.out.println("Entered username:" + loginModel.getUsername() + " and password:" + loginModel.getPassword());
+        System.out.println();
         if(bindingResult.hasErrors()){
             model.addAttribute("title", "Login");
+            System.out.println("Binding error");
             return "login";
         }
+        
         boolean isAuthenticated = authentication.authenticate(loginModel.getUsername(), loginModel.getPassword());
 
     if (isAuthenticated)
     {
-        return "redirect:/home"; // redirect to the home page after successful login
+        return "redirect:/"; // redirect to the home page after successful login
     } else {
         model.addAttribute("error", "Invalid username or password");
         model.addAttribute("title", "Login");
