@@ -15,9 +15,10 @@
 
         <form th:action="@{/claims/edit}" th:object="${claimsModel}" method="post">
             <input type="hidden" th:field="*{id}" />
+			
 
             <div class="mb-3">
-                <label for="businessName" class="form-label">Business Name</label>
+                <label for="businessName" class="form-label">Business Name:</label>
                 <input type="text" th:field="*{businessName}" class="form-control" id="businessName" required>
                 <div th:if="${#fields.hasErrors('businessName')}" class="text-danger">
                     <span th:errors="*{businessName}">Business Name Error</span>
@@ -25,7 +26,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="returnReason" class="form-label">Reason for Return</label>
+                <label for="returnReason" class="form-label">Reason for Return:</label>
                 <input type="text" th:field="*{returnReason}" class="form-control" id="returnReason" required>
                 <div th:if="${#fields.hasErrors('returnReason')}" class="text-danger">
                     <span th:errors="*{returnReason}">Reason for Return Error</span>
@@ -33,7 +34,7 @@
             </div>
 			
 			<div class="mb-3">
-			    <label for="preferredResolution" class="form-label">Preferred Resolution</label>
+			    <label for="preferredResolution" class="form-label">Preferred Resolution:</label>
 			    <input type="text" th:field="*{preferredResolution}" class="form-control" id="preferredResolution" required>
 			    <div th:if="${#fields.hasErrors('preferredResolution')}" class="text-danger">
 			        <span th:errors="*{preferredResolution}">Preferred Resolution Error</span>
@@ -41,7 +42,7 @@
 			</div>
 			
 			<div class="mb-3">
-			    <label for="returnInstructions" class="form-label">Return Instructions</label>
+			    <label for="returnInstructions" class="form-label">Return Instructions:</label>
 			    <input type="text" th:field="*{returnInstructions}" class="form-control" id="returnInstructions" required>
 			    <div th:if="${#fields.hasErrors('returnInstructions')}" class="text-danger">
 			        <span th:errors="*{returnInstructions}">Return Instructions Error</span>

@@ -11,50 +11,74 @@
 <body>
     <div layout:fragment="content" class="container mt-5">
         <h2 class="text-center mb-4">Edit Claim (Business View)</h2>
-		
+        
         <form th:action="@{/management/editClaimBusiness}" th:object="${claimsModel}" method="post">
             <input type="hidden" th:field="*{id}" />
+			
+			<div class="mb-3">
+			    <label for="businessName" class="form-label">Business Name:</label>
+			    <input type="text" th:field="*{businessName}" class="form-control" id="businessName" required>
+			    <div th:if="${#fields.hasErrors('businessName')}" class="text-danger">
+			        <span th:errors="*{businessName}">Business Name Error</span>
+			    </div>
+			</div>
+			
+			<div class="mb-3">
+			    <label for="returnReason" class="form-label">Reason for Return:</label>
+			    <input type="text" th:field="*{returnReason}" class="form-control" id="returnReason" required>
+			    <div th:if="${#fields.hasErrors('returnReason')}" class="text-danger">
+			        <span th:errors="*{returnReason}">Reason for Return Error</span>
+			    </div>
+			</div>
+
+			<div class="mb-3">
+			    <label for="preferredResolution" class="form-label">Preferred Resolution:</label>
+			    <input type="text" th:field="*{preferredResolution}" class="form-control" id="preferredResolution" required>
+			    <div th:if="${#fields.hasErrors('preferredResolution')}" class="text-danger">
+			        <span th:errors="*{preferredResolution}">Preferred Resolution Error</span>
+			    </div>
+			</div>
             
-			<div class="mb-3">
-			    <label for="claimStatus" class="form-label">Claim Status:</label>
-			    <input type="text" th:field="*{claimStatus}" class="form-control" id="claimStatus" required>
-			    <div th:if="${#fields.hasErrors('claimStatus')}" class="text-danger">
-			        <span th:errors="*{claimStatus}">Claim Status Error</span>
-			    </div>
-			</div>
-			
-			<div class="mb-3">
-			    <label for="businessResponse" class="form-label">Business Response:</label>
-			    <input type="text" th:field="*{businessResponse}" class="form-control" id="businessResponse" required>
-			    <div th:if="${#fields.hasErrors('businessResponse')}" class="text-danger">
-			        <span th:errors="*{businessResponse}">Business Response Error</span>
-			    </div>
-			</div>
-			
-			<div class="mb-3">
-			    <label for="approvedResolutionType" class="form-label">Approved Resolution Type:</label>
-			    <input type="text" th:field="*{approvedResolutionType}" class="form-control" id="approvedResolutionType" required>
-			    <div th:if="${#fields.hasErrors('approvedResolutionType')}" class="text-danger">
-			        <span th:errors="*{approvedResolutionType}">Approved Resolution Type Error</span>
-			    </div>
-			</div>
-			
-			<div class="mb-3">
-			    <label for="claimActive" class="form-label">Is Claim Active?</label>
-				<select th:field="*{claimActive}" class="form-select">
-				    <option th:value="true">Active</option>
-				    <option th:value="false">Closed</option>
-				</select>
-			    <div th:if="${#fields.hasErrors('claimActive')}" class="text-danger">
-			        <span th:errors="*{claimActive}">Claim Active Error</span>
-			    </div>
-			</div>
+            <div class="mb-3">
+                <label for="claimStatus" class="form-label">Claim Status:</label>
+                <input type="text" th:field="*{claimStatus}" class="form-control" id="claimStatus">
+                <div th:if="${#fields.hasErrors('claimStatus')}" class="text-danger">
+                    <span th:errors="*{claimStatus}">Claim Status Error</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="businessResponse" class="form-label">Business Response:</label>
+                <input type="text" th:field="*{businessResponse}" class="form-control" id="businessResponse">
+                <div th:if="${#fields.hasErrors('businessResponse')}" class="text-danger">
+                    <span th:errors="*{businessResponse}">Business Response Error</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="approvedResolutionType" class="form-label">Approved Resolution Type:</label>
+                <input type="text" th:field="*{approvedResolutionType}" class="form-control" id="approvedResolutionType">
+                <div th:if="${#fields.hasErrors('approvedResolutionType')}" class="text-danger">
+                    <span th:errors="*{approvedResolutionType}">Approved Resolution Type Error</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="claimActive" class="form-label">Is Claim Active?</label>
+                <select th:field="*{claimActive}" class="form-select">
+                    <option th:value="true">Active</option>
+                    <option th:value="false">Closed</option>
+                </select>
+                <div th:if="${#fields.hasErrors('claimActive')}" class="text-danger">
+                    <span th:errors="*{claimActive}">Claim Active Error</span>
+                </div>
+            </div>
 
-
-
-            <button type="submit" class="btn btn-primary">Update Claim</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Update Claim</button>
+            </div>
         </form>
     </div>
 </body>
-
 </html>
+

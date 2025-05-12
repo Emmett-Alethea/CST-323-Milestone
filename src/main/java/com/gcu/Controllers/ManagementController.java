@@ -51,13 +51,12 @@ public class ManagementController {
     }
     
     //POST
-    @PostMapping("/editWarranty/{id}")
-    public String editWarrantyString(@PathVariable("id") int id, @Valid WarrantyModel warrantyModel, BindingResult bindingResult, Model model) {
+    @PostMapping("/management/editWarranty")
+    public String editWarrantyString(@Valid @ModelAttribute("warrantyModel") WarrantyModel warrantyModel, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            model.addAttribute("title", "Edit Warranty ");
+            model.addAttribute("title", "Edit Warranty");
             return "editWarranty";
         }
-        warrantyModel.setId(id);
         warrantiesRepository.save(warrantyModel);
         return "redirect:/management";
     }
@@ -71,12 +70,13 @@ public class ManagementController {
     }
     
   
-    @PostMapping("/editClaimBusiness/{id}")
-    public String updateClaimBusiness(@PathVariable("id") Long id, 
-                                       @Valid @ModelAttribute("claimsModel") ClaimsModel claimsModel, 
-                                       BindingResult bindingResult, 
-                                       Model model) {
+    @PostMapping("/management/editClaimBusiness")
+    public String updateClaimBusiness(@Valid @ModelAttribute ClaimsModel claimsModel, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            // Log errors
+            bindingResult.getAllErrors().forEach(error -> {
+                System.out.println("Error: " + error.getDefaultMessage());
+            });
             model.addAttribute("title", "Edit Claims (Business)");
             return "editClaimBusiness";
         }

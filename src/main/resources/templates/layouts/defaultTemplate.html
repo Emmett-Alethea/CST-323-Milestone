@@ -89,7 +89,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </head>
     <body>
 		<header>
-		        <div th:replace="layouts/common :: header">My Header</div>
+		        <div th:replace="~{layouts/common :: header}">My Header</div>
 	    </header>
 
             <section layout:fragment="content">
@@ -100,7 +100,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </section>
 			
 			<footer>
-			        <div th:replace="layouts/common :: footer">My Footer</div>
+				<div th:replace="~{layouts/common :: footer}"></div>
 			</footer>
 
     </body>

@@ -32,7 +32,7 @@
 			</div>
 
 			<div class="mb-3">
-			    <label for="productCategory" class="form-label">Product Category</label>
+			    <label for="productCategory" class="form-label">Product Category:</label>
 			    <input type="text" th:field="*{productCategory}" class="form-control" id="productCategory" required>
 			    <div th:if="${#fields.hasErrors('productCategory')}" class="text-danger">
 			        <span th:errors="*{productCategory}">Product Category Error</span>

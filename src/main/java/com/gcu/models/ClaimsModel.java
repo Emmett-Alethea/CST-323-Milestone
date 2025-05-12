@@ -27,7 +27,7 @@ public class ClaimsModel {
     
     @Column("returnReason")
     @NotNull(message="Please enter a return reason")
-    @Size(min=1, max=32, message="Return Reason must be between 1 and 64 characters")
+    @Size(min=1, max=64, message="Return Reason must be between 1 and 64 characters")
     private String returnReason;
     
     @Column("claimStatus")

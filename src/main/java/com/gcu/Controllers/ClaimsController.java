@@ -38,10 +38,7 @@ public class ClaimsController {
     @GetMapping("/claims/edit/{id}")
     public String editClaim(@PathVariable("id") Long id, Model model) {
     	ClaimsModel claim = claimsService.getClaimById(id);
-    	if (claim == null) {
-    		//handles claims not found
-    		return "redirect:claims";
-    	}
+
     	model.addAttribute("title", "Edit Claim");
     	model.addAttribute("claimsModel", claim);
     	return "editClaim";
