@@ -31,10 +31,11 @@ CREATE TABLE warranties (
     expirationDate BIGINT
 );
 
-SELECT JSON_OBJECT(
-    'id', id,
-    'name', name,
-    'price', price,
-    'description', description
-) AS product_json
-FROM products;
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(50),
+  password VARCHAR(50),
+  firstName VARCHAR(100),
+  lastName VARCHAR(100),
+  email VARCHAR(100)
+);
