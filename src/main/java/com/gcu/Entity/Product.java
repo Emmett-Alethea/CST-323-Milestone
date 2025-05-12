@@ -1,12 +1,14 @@
 package com.gcu.Entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("products")
 public class Product {
 
     @Id
+    @Column("product_id")
     private Long id;
 
     private String name;
