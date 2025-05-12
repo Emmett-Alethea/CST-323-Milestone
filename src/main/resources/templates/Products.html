@@ -18,13 +18,18 @@
         </tr>
         </thead>
         <tbody id="productTableBody">
-        <!-- Data will be inserted here by JS -->
+			<tr th:each="product : ${products}">
+			    <td th:text="${product.id}">1</td>
+			    <td th:text="${product.name}">Sample Name</td>
+			    <td th:text="${product.price}">0.00</td>
+			    <td th:text="${product.description}">Sample Description</td>
+			</tr>
         </tbody>
     </table>
 </div>
 
 <script>
-    fetch('/products')
+    fetch('/Products')
         .then(response => response.json())
         .then(data => {
             const tableBody = document.getElementById('productTableBody');
