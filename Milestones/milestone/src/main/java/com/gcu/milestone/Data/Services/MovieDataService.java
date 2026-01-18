@@ -2,100 +2,115 @@ package com.gcu.milestone.Data.Services;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.plaf.TabbedPaneUI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gcu.milestone.Data.Entities.MovieEntity;
 import com.gcu.milestone.Data.Repositories.movieRepository;
 import com.gcu.milestone.Models.movieModel;
 
-public class MovieDataService implements DataAccessInterface {
+/**
+ * Data access service for working with Movie records.
+ */
+@Service
+public class MovieDataService implements DataAccessInterface<movieModel> {
 
     @Autowired
     private movieRepository movieRepository;
 
-    public MovieDataService(movieRepository moviesRepository) {
-        System.out.println("In movieRepository only creator");
-        this.movieRepository = moviesRepository;
-    }
-
-    public MovieDataService() {
-        super();
-    }
-
+    /**
+     * Return every movie as a list of movieModel objects.
+     */
     @Override
-    public List findAll() {
-        String sql = "SELECT * FROM movie";
-        System.out.println("SQL QUERY: " + sql);
-        List<MovieEntity> movies = new ArrayList<MovieEntity>();
-        try {
+    public List<movieModel> findAll() {
+        List<movieModel> movies = new ArrayList<>();
 
-            // Get all of the Entity Orders
-            Iterable<MovieEntity> moviesIterable = movieRepository.findAll();
+        Iterable<MovieEntity> entities = movieRepository.findAll();
+        for (MovieEntity entity : entities) {
+            movies.add(convertFromEntity(entity));
+        }
 
-            // Convert to a List and return the List
-            //movies = new ArrayList<MovieEntity>();
-            moviesIterable.forEach(movies::add);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
         return movies;
     }
 
+    /**
+     * Look up a single movie by id.
+     */
     @Override
-    public Object findById(Long id) {
-       MovieEntity movie = movieRepository.findById(id).get();
-       movieModel model = convertFromEntity(movie);
-       return model;
+    public movieModel findById(Long id) {
+        Optional<MovieEntity> entity = movieRepository.findById(id);
+        return entity.map(this::convertFromEntity).orElse(null);
     }
 
     @Override
-    public Object findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public movieModel findByName(String name) {
+        return null; // not implemented
     }
 
-    public boolean update(MovieEntity movie) {
-        try{
-            MovieEntity movieCheck = movieRepository.save(movie);
-            if(movieCheck == null) return false;
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
+    /**
+     * Create a new movie row.
+     */
+    public boolean create(MovieEntity movie) {
+        movieRepository.save(movie);
         return true;
     }
 
-    @Override
+    /**
+     * Update an existing movie row without losing the image.
+     */
+    public boolean update(MovieEntity movie) {
+        Optional<MovieEntity> existingOpt = movieRepository.findById(movie.getId());
+        if (existingOpt.isPresent()) {
+            MovieEntity entityToSave = existingOpt.get();
+
+            // Only update the fields that change during checkout
+            entityToSave.setStatus(movie.getStatus());
+            entityToSave.setUserId(movie.getUserId());
+
+            // Do NOT touch the image, title, genre, price — they stay as-is
+
+            movieRepository.save(entityToSave);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Delete a movie by id.
+     */
     public void delete(Long id) {
         movieRepository.deleteById(id);
     }
 
-    public boolean create(MovieEntity movie) {
-        String sql = "INSERT INTO movie (id, genre, price, status, title, user_id) VALUES(?, ?, ?, ?, ?, ?)";
-        System.out.println("~~~ In create method in DataService. SQL QUERY: " + sql);
-        try {
-        MovieEntity movieCheck = movieRepository.save(movie);
-        System.out.println("~~~~~ New movie: " + movieCheck.getTitle());
-        if(movieCheck == null) return false;
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return true;
+    /**
+     * Convert from the web-layer model to the database entity.
+     */
+    public MovieEntity convertFromModel(movieModel model) {
+        MovieEntity entity = new MovieEntity();
+        entity.setId((long) model.getId());
+        entity.setGenre(model.getGenre());
+        entity.setPrice(model.getPrice());
+        entity.setStatus(model.getStatus());
+        entity.setTitle(model.getTitle());
+        entity.setUserId(model.getUserId());
+        entity.setImage(model.getImage()); // include image
+        return entity;
     }
 
-    public movieModel convertFromEntity(MovieEntity entity){
-        int id = Math.toIntExact(entity.getId());
-        movieModel movie = new movieModel(id, entity.getGenre(), entity.getPrice(), entity.getStatus(), entity.getTitle(), entity.getUserId());
-        return movie;
-    }
-
-    public MovieEntity convertFromModel(movieModel model){
-        Long id = (long) model.getId();
-        MovieEntity movie = new MovieEntity(id, model.getGenre(), model.getPrice(), model.getStatus(), model.getTitle(), model.getUserId());
-        return movie;
+    /**
+     * Convert from entity to model.
+     */
+    public movieModel convertFromEntity(MovieEntity entity) {
+        movieModel model = new movieModel();
+        model.setId(entity.getId().intValue());
+        model.setGenre(entity.getGenre());
+        model.setPrice(entity.getPrice());
+        model.setStatus(entity.getStatus());
+        model.setTitle(entity.getTitle());
+        model.setUserId(entity.getUserId());
+        model.setImage(entity.getImage()); // include image
+        return model;
     }
 }

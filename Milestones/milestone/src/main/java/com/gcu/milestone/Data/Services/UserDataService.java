@@ -2,98 +2,107 @@ package com.gcu.milestone.Data.Services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.gcu.milestone.Data.Entities.UserEntity;
 import com.gcu.milestone.Data.Repositories.userRepository;
 import com.gcu.milestone.Models.UserModel;
 
-public class UserDataService implements DataAccessInterface {
-    
+/**
+ * Data access service for the users table.
+ */
+@Service
+public class UserDataService implements DataAccessInterface<UserModel> {
+
     @Autowired
     private userRepository userRepository;
 
-    public UserDataService(userRepository userRepository) {
-        System.out.println("In UserRepository only creator");
-        this.userRepository = userRepository;
-    }
-
-    public UserDataService() {
-        super();
-    }
-
+    /**
+     * Return all users as a list of models.
+     */
     @Override
-    public List findAll() {
-        var sql = "SELECT * FROM users";
-        System.out.println("SQL QUERY: " + sql);
-        List<UserEntity> Users = new ArrayList<>();
-        try {
+    public List<UserModel> findAll() {
+        List<UserModel> users = new ArrayList<>();
 
-            // Get all of the Entity Orders
-            var UsersIterable = userRepository.findAll();
+        Iterable<UserEntity> entities = userRepository.findAll();
+        for (UserEntity entity : entities) {
+            users.add(convertFromEntity(entity));
+        }
 
-            // Convert to a List and return the List
-            //Users = new ArrayList<UserEntity>();
-            UsersIterable.forEach(Users::add);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Users;
+        return users;
     }
 
+    /**
+     * Find a single user by id.
+     */
     @Override
-    public Object findById(Long id) {
-       UserEntity User = userRepository.findById(id).get();
-       UserModel model = convertFromEntity(User);
-       return model;
+    public UserModel findById(Long id) {
+        Optional<UserEntity> entity = userRepository.findById(id);
+        return entity.map(this::convertFromEntity).orElse(null);
     }
 
+    
     @Override
-    public Object findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public UserModel findByName(String name) {
+        return null;
     }
 
-    public boolean update(UserEntity User) {
-        try{
-            UserEntity UserCheck = userRepository.save(User);
-            if(UserCheck == null) return false;
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
+    /**
+     * Create a new user row.
+     */
+    public boolean create(UserEntity user) {
+        userRepository.save(user);
         return true;
     }
 
+    /**
+     * Update an existing user row.
+     */
+    public boolean update(UserEntity user) {
+        userRepository.save(user);
+        return true;
+    }
+
+    /**
+     * Delete a user by id.
+     */
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
-    public boolean create(UserEntity User) {
-        String sql = "INSERT INTO User (id, username, password, name) VALUES(?, ?, ?, ?)";
-        System.out.println("~~~ In create method in DataService. SQL QUERY: " + sql);
-        try {
-        UserEntity UserCheck = userRepository.save(User);
-        System.out.println("~~~~~ New User: " + UserCheck.getUsername());
-        if(UserCheck == null) return false;
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return true;
+   
+    public UserModel convertFromEntity(UserEntity entity) {
+        int id = (entity.getId() == null) ? 0 : entity.getId().intValue();
+        return new UserModel(
+                id,
+                entity.getUsername(),
+                entity.getPassword(),
+                entity.getName());
     }
 
-    public UserModel convertFromEntity(UserEntity entity){
-        int id = Math.toIntExact(entity.getId());
-        UserModel User = new UserModel(id, entity.getUsername(), entity.getPassword(), entity.getName());
-        return User;
-    }
-
-    public UserEntity convertFromModel(UserModel model){
+    
+    public UserEntity convertFromModel(UserModel model) {
         Long id = (long) model.getId();
-        UserEntity User = new UserEntity(id, model.getUsername(), model.getPassword(), model.getName());
-        return User;
+        return new UserEntity(
+                id,
+                model.getUsername(),
+                model.getPassword(),
+                model.getName());
+    }
+
+    /**
+     * Used by the login controller to validate credentials.
+     */
+    public UserModel findByUsernameAndPassword(String username, String password) {
+        UserEntity entity = userRepository.findByUsernameAndPassword(username, password);
+        if (entity == null) {
+            return null;
+        }
+        return convertFromEntity(entity);
     }
 }
+

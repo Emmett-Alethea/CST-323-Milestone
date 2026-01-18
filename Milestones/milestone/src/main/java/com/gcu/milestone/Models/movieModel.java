@@ -7,41 +7,46 @@ public class movieModel {
     @Id
     private int id;
 
-    private String genre; //VarChar in database
-    private Float price; //Decimal in database
-    private String status; //varchar in database
-    private String title; //varchar
-    private int userId; //int current_user_id in database, can be null
+    private String title;    // varchar in DB
+    private String genre;    // varchar
+    private Float price;     // decimal
+    private String status;   // varchar
+    private int userId;      // int, can be null
+    private String image;    // URL or filename of movie image
 
-    public int getId(){return this.id;}
-    public void setId(int id){this.id = id;}
+    // Empty constructor
+    public movieModel() { }
 
-    public String getGenre(){return this.genre;}
-    public void setGenre(String genre){this.genre = genre;}
-
-    public Float getPrice(){return this.price;}
-    public void setPrice(Float price){this.price = price;}
-
-    public String getStatus(){return this.status;}
-    public void setStatus(String status){this.status = status;}
-
-    public String getTitle(){return this.title;}
-    public void setTitle(String title){this.title = title;}
-
-    public int getUserId(){return this.userId;}
-    public void setUserId(int userId){this.userId = userId;}
-
-    public movieModel(){
-
-    }
-    public movieModel(int id, String genre, Float price, String status, String title, int userId){
+    // Full constructor
+    public movieModel(int id, String title, String genre, Float price, String status, int userId, String image) {
         this.id = id;
+        this.title = title;
         this.genre = genre;
         this.price = price;
         this.status = status;
-        this.title = title;
         this.userId = userId;
+        this.image = image;
     }
 
-    
+    // Getters and setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getGenre() { return genre; }
+    public void setGenre(String genre) { this.genre = genre; }
+
+    public Float getPrice() { return price; }
+    public void setPrice(Float price) { this.price = price; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
+
+    public String getImage() { return image; }
+    public void setImage(String image) { this.image = image; }
 }
