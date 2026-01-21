@@ -1,10 +1,9 @@
-name: Java CI with Maven
+name: Build and deploy Milestone app to Azure
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -20,13 +19,20 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build with Maven (skip tests in CI)
-        working-directory: Milestones/milestone
-        run: mvn -B clean package -DskipTests
+      # Build the Spring Boot jar in Milestones/milestone
+      - name: Build with Maven (skip tests)
+        run: mvn -B -f Milestones/milestone/pom.xml clean package -DskipTests
 
+      # Login to Azure using the service principal JSON you saved as AZURE_CREDENTIALS
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy the built jar to your Milestoneapp Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Milestoneapp' # exact Azure Web App name
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: 'Milestones/milestone/target/*.jar'
+          app-name: 'Milestoneapp'  # your Web App name
+          slot-name: 'production'
+          package: 'Milestones/milestone/target/milestoneapp.jar'
