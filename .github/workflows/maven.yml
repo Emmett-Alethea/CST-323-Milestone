@@ -23,7 +23,7 @@ jobs:
         working-directory: Milestones/milestone
         run: mvn -B clean package -DskipTests
 
-      # (optional but helpful while debugging)
+      
       - name: Show target folder contents
         working-directory: Milestones/milestone
         run: ls -R target
@@ -31,6 +31,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Milestoneapp'   # your Azure Web App name
+          app-name: 'Milestoneapp'  
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: 'Milestones/milestone/target/*.jar'
