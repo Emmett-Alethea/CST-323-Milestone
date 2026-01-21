@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,9 +23,14 @@ jobs:
         working-directory: Milestones/milestone
         run: mvn -B clean package -DskipTests
 
+      # (optional but helpful while debugging)
+      - name: Show target folder contents
+        working-directory: Milestones/milestone
+        run: ls -R target
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Milestoneapp'   # Azure Web App name (case-sensitive)
+          app-name: 'Milestoneapp'   # your Azure Web App name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: 'Milestones/milestone/target/milestoneapp.jar'
+          package: 'Milestones/milestone/target/*.jar'
