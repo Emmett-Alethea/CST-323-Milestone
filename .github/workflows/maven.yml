@@ -1,14 +1,18 @@
-name: Java CI with Maven
+name: Build and deploy to Azure
 
 on:
   push:
-    branches: [ main, Main2 ]
-  pull_request:
-    branches: [ main, Main2 ]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    # 👇 Run all commands from your Spring Boot project folder
+    defaults:
+      run:
+        working-directory: Milestones/milestone
 
     steps:
       - name: Checkout repository
@@ -21,4 +25,12 @@ jobs:
           java-version: '21'
 
       - name: Build with Maven (skip tests in CI)
+      # this will now find pom.xml in Milestones/milestone
         run: mvn -B clean package -DskipTests
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'Milestoneapp'              # exactly your Azure Web App name
+          package: 'Milestones/milestone/target/*.jar'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
